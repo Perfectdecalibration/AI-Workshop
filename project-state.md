@@ -1,9 +1,13 @@
 # Project state
-Last updated: 2026-09-23
+Last updated: 2026-10-01
 
 ## Works
 - The Next.js site (App Router, TypeScript, plain CSS) is live on Vercel at https://ai-workshop-steel-psi.vercel.app/
 - A Supabase project exists and is linked to the repo.
+- On the live site, a person can create an account with an email address and a password, and then sees "Signed in as" followed by their email.
+- A person can sign out, which takes them back to the sign-in form.
+- A person can sign back in with their email and password. If the password is wrong, they see an error message and stay signed out.
+- A person who closes the tab and comes back to the site is still signed in, without typing their password again.
 
 ## Broken or flaky
 - Nothing known. No features have been built yet.
