@@ -92,6 +92,18 @@ export default function TaskList() {
     }
   }
 
+  // Count done tasks per skill, straight from the list on screen,
+  // so the numbers change the moment a checkbox is ticked.
+  const doneCounts = SKILLS.map((s) => ({
+    skill: s,
+    count: (tasks ?? []).filter((t) => t.skill === s && t.done).length,
+  }));
+  const fewest = Math.min(...doneCounts.map((c) => c.count));
+  // Every skill tied for the fewest done tasks counts as most avoided.
+  const mostAvoided = doneCounts
+    .filter((c) => c.count === fewest)
+    .map((c) => c.skill);
+
   return (
     <section className="tasks">
       <h2>Your tasks</h2>
@@ -128,6 +140,23 @@ export default function TaskList() {
         <p className="error" role="alert">
           {error}
         </p>
+      )}
+
+      {tasks !== null && (
+        <div className="skill-summary">
+          <h3>Done by skill</h3>
+          <ul className="skill-counts">
+            {doneCounts.map((c) => (
+              <li key={c.skill}>
+                <span>{c.skill}</span>
+                <span className="count">{c.count}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="most-avoided">
+            Most avoided: {mostAvoided.join(", ")}
+          </p>
+        </div>
       )}
 
       {tasks === null ? (
