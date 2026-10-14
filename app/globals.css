@@ -162,3 +162,38 @@ button:disabled {
   background: #e6f0f0;
   color: var(--accent);
 }
+
+.skill-summary {
+  margin-bottom: 1.5rem;
+}
+
+.skill-summary h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.skill-counts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.25rem 1rem;
+}
+
+.skill-counts li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.skill-counts .count {
+  font-weight: 600;
+}
+
+.most-avoided {
+  margin: 0;
+  font-weight: 600;
+  color: var(--accent);
+}
