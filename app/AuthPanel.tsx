@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { getSupabase } from "./supabaseClient";
+import TaskList from "./TaskList";
 
 export default function AuthPanel() {
   // undefined = still checking for a saved session, null = signed out
@@ -70,6 +71,8 @@ export default function AuthPanel() {
         <button type="button" onClick={handleSignOut}>
           Sign out
         </button>
+        {/* key={email} starts a fresh list whenever a different person signs in */}
+        <TaskList key={email} />
       </section>
     );
   }
