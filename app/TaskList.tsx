@@ -30,6 +30,8 @@ export default function TaskList() {
   const [skill, setSkill] = useState<Skill>("Reading");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  // true = the list could not be loaded, so we do not know the real numbers
+  const [loadFailed, setLoadFailed] = useState(false);
 
   // Load this person's tasks once, when the list first appears.
   // Row level security in the database makes sure only their own rows come back.
@@ -43,6 +45,7 @@ export default function TaskList() {
         if (error) {
           setError(`Could not load tasks: ${error.message}`);
           setTasks([]);
+          setLoadFailed(true);
           return;
         }
         setTasks(data as Task[]);
@@ -92,6 +95,21 @@ export default function TaskList() {
     }
   }
 
+  // Count done tasks per skill, straight from the list on screen,
+  // so the numbers change the moment a checkbox is ticked.
+  const doneCounts = SKILLS.map((s) => ({
+    skill: s,
+    count: (tasks ?? []).filter((t) => t.skill === s && t.done).length,
+  }));
+  const fewest = Math.min(...doneCounts.map((c) => c.count));
+  // Every skill tied for the fewest done tasks counts as most avoided.
+  const mostAvoided = doneCounts
+    .filter((c) => c.count === fewest)
+    .map((c) => c.skill);
+  // With nothing ticked yet, all six skills tie at 0. Naming all six as
+  // "most avoided" would be unhelpful, so we show a short message instead.
+  const nothingDone = doneCounts.every((c) => c.count === 0);
+
   return (
     <section className="tasks">
       <h2>Your tasks</h2>
@@ -128,6 +146,29 @@ export default function TaskList() {
         <p className="error" role="alert">
           {error}
         </p>
+      )}
+
+      {/* Hidden while loading, and when loading failed: showing zeros then
+          would look like real numbers. */}
+      {tasks !== null && !loadFailed && (
+        <div className="skill-summary">
+          <h3>Done by skill</h3>
+          <ul className="skill-counts">
+            {doneCounts.map((c) => (
+              <li key={c.skill}>
+                {/* The space keeps the text as "Reading 0", not "Reading0",
+                    for screen readers. */}
+                <span>{c.skill}</span>{" "}
+                <span className="count">{c.count}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="most-avoided">
+            {nothingDone
+              ? "Nothing done yet."
+              : `Most avoided: ${mostAvoided.join(", ")}`}
+          </p>
+        </div>
       )}
 
       {tasks === null ? (
