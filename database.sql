@@ -12,6 +12,13 @@ create table public.tasks (
   created_at timestamptz not null default now()
 );
 
+-- Permissions: without these the site cannot reach the table at all.
+-- Supabase used to add them to every new table automatically. They are written
+-- here so a rebuilt table works even if it no longer does.
+-- They look broad, but the row level security policies below decide which rows
+-- each person can actually read or change.
+grant all on table public.tasks to anon, authenticated, service_role;
+
 -- Row level security: each person reads and writes only their own rows.
 -- There is no delete policy, so nobody can delete tasks yet.
 alter table public.tasks enable row level security;
