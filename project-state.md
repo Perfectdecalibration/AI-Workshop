@@ -13,9 +13,12 @@ Last updated: 2026-11-15
 - A person can tick a task done, and it saves straight away.
 - Tasks, their skill tags and their done status survive a reload.
 - Each account sees only its own tasks.
+- Slice 3, most avoided skill, is done (marked DONE in roadmap.md, merged to main on 2026-11-15 in PR #7).
+- A signed-in person sees "Done by skill": all six skills, each with the number of done tasks, and a "Most avoided" line naming the skill or skills with the fewest. The numbers change as soon as a task is ticked.
+- When no task is ticked yet, the line says "Nothing done yet." If the task list fails to load, the "Done by skill" section is hidden.
 
 ## In progress
-- Slice 3, most avoided skill, is ACTIVE. Pull request #7 with code for it has been open since 2026-10-14. It is not merged, and nothing from it is on main.
+- Slice 4, due dates, is ACTIVE. No code for it yet.
 
 ## Broken or flaky
 - npm run lint does not work. Next.js 16 removed the next lint command. Fixing it needs eslint and eslint-config-next added as dependencies, which has not been approved yet.
@@ -37,6 +40,8 @@ Last updated: 2026-11-15
 - 2026-10-14: The commit titled "Implement due dates for tasks with overdue notifications" only updated roadmap.md. No due-date code exists yet.
 - 2026-10-14: Slice 2 criterion 4 (a new account sees an empty list) was checked on the PR #5 preview deployment, not on the main site. Same code and same database.
 - 2026-11-15: The live site could not load or add tasks. The tasks table in Supabase had been replaced by a version with a "category" column (Homework, Readings, Exam prep, Papers, Projects, Lectures) instead of "skill", and it was empty. Nobody knows who replaced it, because the table's SQL was never saved in this repo. It was fixed the same day, directly in Supabase: "category" was renamed back to "skill" and limited to the six skills. The live site was then tested: adding "Read one news article" tagged Reading works and survives a reload. The table's SQL is now saved in database.sql. A read-only check of the live table the same day found that its columns, rules, policies and permissions all match database.sql.
+- 2026-11-15: Slice 3 marked DONE. Tim checked its three done-criteria on the live site after PR #7 was merged.
+- 2026-11-15: When nothing is ticked, the page says "Nothing done yet." and does not list all six skills as most avoided. A tie with at least one done task each still lists every tied skill.
 
 ## Next session
-- Build slice 3, most avoided skill.
+- Build slice 4, due dates.
