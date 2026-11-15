@@ -23,6 +23,7 @@ Rules for working in My AIR project, repository Perfectdecalibration/AI-Workshop
 - Work on any slice other than the one marked ACTIVE in roadmap.md.
 - Commit or merge unless the prompt says to. By default, show what changed and stop before committing.
 - Turn off row level security on any Supabase table.
+- Change, rename or delete anything in Supabase that this site does not own without asking first. That means everything whose name starts with korea_go_, the korea-go-avatars storage bucket, and the tables profiles, korean_words and user_word_progress.
 
 ## Conventions
 - Explain every change in plain language as well as code: what changed, in which files, and why. Tim is learning, so define technical terms the first time you use them.
@@ -32,6 +33,7 @@ Rules for working in My AIR project, repository Perfectdecalibration/AI-Workshop
 - Secrets live in .env.local, which is never committed. Only public Supabase values go in variables starting with NEXT_PUBLIC_.
 - The six skills are Reading, Writing, Listening, Speaking, Vocabulary, Grammar. Spell and order them this way everywhere.
 - When a slice's done-criteria pass on the live site, mark it done in roadmap.md, mark the next slice ACTIVE, and record it in project-state.md.
+- Every change to the database is also written into database.sql in the same change, so the file always matches the live database.
 
 ## Current focus
 See roadmap.md. Work only on the slice marked ACTIVE.
