@@ -1,5 +1,5 @@
 # Project state
-Last updated: 2026-10-14
+Last updated: 2026-11-15
 
 ## Works
 - The Next.js site (App Router, TypeScript, plain CSS) is live on Vercel at https://ai-workshop-steel-psi.vercel.app/
@@ -25,9 +25,10 @@ Last updated: 2026-10-14
 - The code reads NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY. These must be in .env.local and in Vercel environment variables.
 - Not yet recorded: whether "Confirm email" is off in Supabase. Slice 1 passing suggests it is off.
 - Claude Code runs in the browser at claude.ai/code with this repo already selected.
-- The tasks table was created by hand in the Supabase SQL Editor and is not saved anywhere in the repo. Columns: id, user_id (default auth.uid()), title (must not be blank), skill (one of the six), done (default false), created_at.
+- The SQL for the tasks table is saved in database.sql, at the top level of the repo. Columns: id, user_id (default auth.uid()), title (must not be blank), skill (one of the six), done (default false), created_at.
 - Row level security is on for the tasks table, with select, insert and update policies limited to the person's own rows. There is no delete policy.
 - The preview site and the main site share one Supabase database. Signing out on either one signs that account out everywhere.
+- The Supabase project is shared with a separate app called korea-go. Everything in the database whose name starts with korea_go_, plus the storage bucket korea-go-avatars, belongs to korea-go. The tables profiles, korean_words and user_word_progress also exist and are not used by this site. All of these must be left alone.
 
 ## Decisions
 - 2026-10-14: Added slice 4, Due dates, status pending. Due dates are optional and stored as a plain date (no time). The overdue check runs in the browser so it uses the person's local date, not the server's UTC clock. Done tasks and tasks due today are never Overdue.
@@ -35,6 +36,7 @@ Last updated: 2026-10-14
 - 2026-10-14: Task priority (Low, Normal, High) considered and not chosen. Not in the roadmap.
 - 2026-10-14: The commit titled "Implement due dates for tasks with overdue notifications" only updated roadmap.md. No due-date code exists yet.
 - 2026-10-14: Slice 2 criterion 4 (a new account sees an empty list) was checked on the PR #5 preview deployment, not on the main site. Same code and same database.
+- 2026-11-15: The live site could not load or add tasks. The tasks table in Supabase had been replaced by a version with a "category" column (Homework, Readings, Exam prep, Papers, Projects, Lectures) instead of "skill", and it was empty. Nobody knows who replaced it, because the table's SQL was never saved in this repo. It was fixed the same day, directly in Supabase: "category" was renamed back to "skill" and limited to the six skills. The live site was then tested: adding "Read one news article" tagged Reading works and survives a reload. The table's SQL is now saved in database.sql.
 
 ## Next session
 - Build slice 3, most avoided skill.
